@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N cis_step2_South_Korea_ENSG00000001617
+#PBS -o /home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step2/South_Korea/oe/step2_South_Korea_ENSG00000001617.out
+#PBS -e /home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step2/South_Korea/oe/step2_South_Korea_ENSG00000001617.err
+#PBS -j oe
+#PBS -l walltime=24:00:00
+#PBS -l select=1:ncpus=2:mem=128gb
+
+export PATH=/home/project/11003054/e1124313/env/RSAIGE/bin/:/opt/pbs/bin/:/home/users/nus/e1124313/env/bin:/opt/clmgr/sbin:/opt/clmgr/bin:/opt/sgi/sbin:/opt/sgi/bin:/home/users/nus/e1124313/.autojump/bin:/home/users/nus/e1124313/scratch/eqtl/plink:/home/users/nus/e1124313/scratch/cellranger-8.0.0:/home/users/nus/e1124313/project/e1124313/trajectory/spaceranger-3.0.0:/home/users/nus/e1124313/miniconda/bin:/home/users/nus/e1124313/miniconda/condabin:/home/users/nus/e1124313/.local/bin:/home/users/nus/e1124313/bin:/opt/cray/pe/pals/1.1.6/bin:/opt/cray/pe/craype/2.7.15/bin:/opt/cray/pe/cce/13.0.2/binutils/x86_64/x86_64-pc-linux-gnu/bin:/opt/cray/pe/cce/13.0.2/binutils/cross/x86_64-aarch64/bin:/opt/cray/pe/cce/13.0.2/utils/x86_64/bin:/opt/cray/pe/cce/13.0.2/bin:/opt/cray/pe/perftools/22.04.0/bin:/opt/cray/pe/papi/6.0.0.14/bin:/opt/cray/libfabric/1.11.0.4.125/bin:/opt/clmgr/sbin:/opt/clmgr/bin:/opt/sgi/sbin:/opt/sgi/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/app/apps/local/bin:/opt/c3/bin:/usr/lpp/mmfs/bin:/opt/pbs/bin:/sbin:/bin:/opt/cray/pe/bin:/home/users/nus/e1124313/sratoolkit/sratoolkit.3.0.7-centos_linux64/bin:/app/apps/local/bin:/opt/pbs/bin:/sbin:/bin
+
+cd /home/users/nus/e1124313/scratch/eqtl/
+
+Rscript /home/users/nus/e1124313/scratch/qtl/extdata/step2_tests_qtl.R               --bedFile=/home/users/nus/e1124313/scratch/eqtl/input/South_Korea/chr/South_Korea_id_updated_ok_chr3.bed              --bimFile=/home/users/nus/e1124313/scratch/eqtl/input/South_Korea/chr/South_Korea_id_updated_ok_chr3.bim              --famFile=/home/users/nus/e1124313/scratch/eqtl/input/South_Korea/chr/South_Korea_id_updated_ok_chr3.fam              --SAIGEOutputFile=/home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step2/South_Korea/output/cis_South_Korea_ENSG00000001617             --chrom=3               --minMAF=0         --minMAC=20         --LOCO=FALSE            --GMMATmodelFile=/home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step1/South_Korea/output/South_Korea_ENSG00000001617.rda             --SPAcutoff=2         --varianceRatioFile=/home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step1/South_Korea/output/South_Korea_ENSG00000001617.varianceRatio.txt            --rangestoIncludeFile=/home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step2/South_Korea/region/South_Korea_ENSG00000001617_range.txt             --markers_per_chunk=10000
+

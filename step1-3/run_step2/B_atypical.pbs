@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N Step2_B_atypical
+#PBS -l select=1:ncpus=128:mem=440gb
+#PBS -l walltime=24:00:00
+
+
+# 定义cell_type
+export CELL_TYPE='B_atypical'
+
+# 执行Python脚本
+/home/project/11003054/e1124313/env/maxfuse/bin/python /home/users/nus/e1124313/scratch/eqtl/step1-3/run_step2/parallel_step2.py 
+
