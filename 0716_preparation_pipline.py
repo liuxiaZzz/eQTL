@@ -5,6 +5,8 @@
 :@LastEditTime: 5/23/2024, 4:00:32 PM
 :Description: 最新更新的功能：添加了归一化和regress，并且使用plink计算了genotype的PCA，输出到保存到txt和h5ad中，后续用于计算PEER
 下一步应该是计算GRM和PEER
+
+0920:更新在SCT之后不进行log(1+x),取SCT的counts而不是data
 '''
 # conda activate go
 # module load hdf5/1.12.1-nvhpc
@@ -34,7 +36,7 @@ print("Start reading data...")
 adata = sc.read("/home/users/nus/e1124313/scratch/eqtl/asian_sle.h5ad") #替换成完整数据路径
 adata.obs.rename(columns={'Sample ID': 'Sample_ID', 'Batch ID': 'Batch_ID'}, inplace=True)
 adata.var_names_make_unique() #测试能否解决找不到基因的问题
-adata.obs['Sex'] = adata.obs['Sex'].map({'FEMALE': 0, 'MALE': 1})
+adata.obs['Sex'] = adata.obs['Sex'].map({'FEMALE': 1, 'MALE': 0})
 
 
 ############### 临时，用后删
@@ -57,7 +59,7 @@ subsets.keys()
 gtf_path = "/home/users/nus/e1124313/scratch/eqtl/Homo_sapiens.GRCh38.112.chr.gtf"
 db = gffutils.create_db(gtf_path, dbfn=':memory:', force=True, keep_order=True, disable_infer_genes=True, disable_infer_transcripts=True)
 
-def process_input(adata_subset, min_genes=200, min_cells=3, min_counts=5000, path='/home/users/nus/e1124313/scratch/eqtl/0720_input'):
+def process_input(adata_subset, min_genes=200, min_cells=3, min_counts=5000, path='/home/users/nus/e1124313/scratch/eqtl/0920_input'):
     # if adata_subset.obs['cell_type'].startswith('B'):
     #     min_genes = 300
     #     min_cells = 5
@@ -66,6 +68,7 @@ def process_input(adata_subset, min_genes=200, min_cells=3, min_counts=5000, pat
     adata_subset.raw = adata_subset
     celltype = adata_subset.obs['CT_2'].values[0]
     output_path = f"{path}/{celltype}"
+    os.makedirs(path, exist_ok=True)
     os.makedirs(output_path, exist_ok=True)
     # 基础的质控过滤
     sc.pp.filter_cells(adata_subset, min_genes=min_genes)
@@ -106,16 +109,16 @@ def process_input(adata_subset, min_genes=200, min_cells=3, min_counts=5000, pat
         
         ro.r.assign("adata_r", adata_subset)
         ro.r('seurat_object <- as.Seurat(adata_r, data="X")')
-        ro.r('seurat_object <- SCTransform(object = seurat_object, assay="originalexp", vars.to.regress = c("pct_counts_mt", "Batch_ID"), conserve.memory = TRUE, return.only.var.genes = FALSE)')
+        ro.r('seurat_object <- SCTransform(object = seurat_object, assay="originalexp", vars.to.regress = c("pct_counts_mt", "Batch_ID"), conserve.memory = TRUE, return.only.var.genes = FALSE)') 
         # 从Seurat对象中获取调整后的数据
-        ro.r('data_matrix <- GetAssayData(seurat_object, slot = "data", assay = "SCT")')
+        ro.r('data_matrix <- GetAssayData(seurat_object, slot = "counts", assay = "SCT")') # 这里是counts，不是data
         # 转换数据回Python
         data_matrix = ro.r('data_matrix')
         data_matrix = data_matrix.T
         data_matrix = sp.csr_matrix(data_matrix, dtype=np.float32)
 
         # 将矩阵转换为CSR格式，如果需要的话
-        seurat_genes = np.array(ro.r('rownames(seurat_object[["SCT"]]@data)'))
+        seurat_genes = np.array(ro.r('rownames(seurat_object[["SCT"]]@counts)')) # 这里是counts，不是data
         adata_subset = adata_subset[: ,adata_subset.var_names.isin(seurat_genes)] #这里去掉了一些基因
         adata_subset.layers['SCT'] = data_matrix
 
