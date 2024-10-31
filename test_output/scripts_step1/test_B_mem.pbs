@@ -9,5 +9,5 @@
 export CELL_TYPE='B_mem'
 
 # 执行Python脚本
-/home/project/11003054/e1124313/env/maxfuse/bin/python /home/users/nus/e1124313/scratch/eqtl/test_output/test_parallel_step1.py
+/home/project/11003054/e1124313/env/maxfuse/bin/python /home/users/nus/e1124313/scratch/eqtl/test_output/scripts_step1/test_parallel_step1.py
 

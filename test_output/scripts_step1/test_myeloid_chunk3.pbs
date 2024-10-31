@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N Step1_myeloid_chunk3
+#PBS -l select=1:ncpus=128:mem=440gb
+#PBS -l walltime=24:00:00
+#PBS -P 11003054
+
+
+# 定义cell_type
+export CELL_TYPE='myeloid'
+
+# 执行Python脚本
+/home/project/11003054/e1124313/env/maxfuse/bin/python /home/users/nus/e1124313/scratch/eqtl/test_output/scripts_step1/test_parallel_step1_chunk3.py
+

@@ -5,7 +5,7 @@ import os
 
 cell_type = os.getenv('CELL_TYPE') 
 tasks = []
-df = pd.read_csv(f'/home/users/nus/e1124313/scratch/eqtl/0720_input/{cell_type}/{cell_type}_gene_locations.txt', sep='\t')
+df = pd.read_csv(f'/home/users/nus/e1124313/scratch/eqtl/0920_input/{cell_type}/{cell_type}_gene_locations.txt', sep='\t')
 
 for index, row in df.iterrows():
     gene_id = row['gene_id']
@@ -16,7 +16,7 @@ for index, row in df.iterrows():
 
 def run(args):
     cell_type, gene_id, chrom, start, end = args
-    subprocess.call(['/home/users/nus/e1124313/scratch/eqtl/step1-3/run_step3/run_step3.sh', cell_type, gene_id, str(chrom), str(start), str(end)])
+    subprocess.call(['/home/users/nus/e1124313/scratch/eqtl/test_output/scripts_step3/run_step3.sh', cell_type, gene_id, str(chrom), str(start), str(end)])
 
 if __name__ == "__main__":
      with Pool(128) as pool:

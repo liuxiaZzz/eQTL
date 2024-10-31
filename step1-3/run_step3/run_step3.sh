@@ -17,4 +17,4 @@ export PATH=/home/project/11003054/e1124313/env/RSAIGE/bin/:$PATH
 Rscript /home/users/nus/e1124313/scratch/qtl/extdata/step3_gene_pvalue_qtl.R       \
 --assocFile=$step2prefix \
 --geneName=$gene_id \
---genePval_outputFile=${step2prefix}_pval >> /home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step3/${cell_type}/oe/step3_${cell_type}_${gene_id}.log
+--genePval_outputFile=${step2prefix}_pval > /home/users/nus/e1124313/scratch/eqtl/step1-3/cis/step3/${cell_type}/oe/step3_${cell_type}_${gene_id}.log

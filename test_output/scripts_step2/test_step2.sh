@@ -1,10 +1,17 @@
 #! /bin/bash
 
-cell_type="B_mem"
-gene_id="ENSG00000150093"
-chrom="10"
-start="32887273"
-end="33005792"
+# cell_type="B_mem"
+# gene_id="ENSG00000150093"
+# chrom="10"
+# start="32887273"
+# end="33005792"
+
+cell_type=$1
+gene_id=$2
+chrom=$3
+start=$4
+end=$5
+
 # 强制转换为整数
 start=${start%.*}
 end=${end%.*}
@@ -26,9 +33,9 @@ echo -e $region > $regionFile
 export PATH=/home/project/11003054/e1124313/env/RSAIGE/bin/:$PATH
 
 Rscript /home/users/nus/e1124313/scratch/qtl/extdata/step2_tests_qtl.R      \
---bedFile=/home/users/nus/e1124313/scratch/eqtl/input/${cell_type}/chr/ATGC_${cell_type}_Asian_sle_chr${chrom}.bed      \
---bimFile=/home/users/nus/e1124313/scratch/eqtl/input/${cell_type}/chr/ATGC_${cell_type}_Asian_sle_chr${chrom}.bim      \
---famFile=/home/users/nus/e1124313/scratch/eqtl/input/${cell_type}/chr/ATGC_${cell_type}_Asian_sle_chr${chrom}.fam      \
+--bedFile=/home/users/nus/e1124313/scratch/eqtl/0920_input/${cell_type}/chr/ATGC_${cell_type}_Asian_sle_chr${chrom}.bed      \
+--bimFile=/home/users/nus/e1124313/scratch/eqtl/0920_input/${cell_type}/chr/ATGC_${cell_type}_Asian_sle_chr${chrom}.bim      \
+--famFile=/home/users/nus/e1124313/scratch/eqtl/0920_input/${cell_type}/chr/ATGC_${cell_type}_Asian_sle_chr${chrom}.fam      \
 --SAIGEOutputFile=${step2prefix}     \
 --chrom=$chrom       \
 --minMAF=0.05 \
